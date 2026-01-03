@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+
+STEP=1
+
+case "$1" in
+  up)
+    brightnessctl set +${STEP}%
+    notify-send "Brightness" "Increased ☀️"
+    ;;
+  down)
+    brightnessctl set ${STEP}%-
+    notify-send "Brightness" "Decreased 🌙"
+    ;;
+  *)
+    echo "Usage: brightness up | down"
+    ;;
+esac
+# check() {
+#   command -v "$1" 1>/dev/null
+# }
+#
+# notify() {
+#   # shellcheck disable=SC2015
+#   check notify-send && {
+#     notify-send "$@"
+#   } || {
+#     echo "$@"
+#   }
+# }
+#
+# check brightnessctl || {
+#   notify "Brightnessctl is not available"
+#   exit
+# }
+#
+# send_notification() {
+#   brightness=$(($(brightnessctl g) * 100 / $(brightnessctl m)))
+#   brightness=${brightness%.*}
+#   notify \
+#     --hint=string:x-dunst-stack-tag:brightness \
+#     --hint=string:synchronous:brightness \
+#     -a "Brightness" \
+#     -h int:value:"$brightness" \
+#     "Brightness: ${brightness}%"
+# }
+#
+# case $1 in
+# up)
+#   brightnessctl s +3%
+#   send_notification
+#   ;;
+# down)
+#   brightnessctl s 3%-
+#   send_notification
+#   ;;
+# esac
