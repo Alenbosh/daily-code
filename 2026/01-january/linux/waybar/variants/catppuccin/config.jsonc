@@ -1,0 +1,249 @@
+{
+  "reload_style_on_change": true,
+  "layer": "bottom",
+  "position": "left",
+
+  "style":"~/.config/waybar/style.css",
+  "modules-left": ["custom/omarchy", "clock","group/misc","custom/update"],
+  "modules-center": ["hyprland/workspaces"],
+  "modules-right": [
+    "group/volume",   
+    "network",
+    "battery"
+  ],
+
+  
+  "pulseaudio/slider":{
+      "min": 0,
+      "max": 100,
+      "orientation": "vertical",
+      "passthrough": false
+  },
+
+
+  "group/volume":{
+      "orientation":"vertical",
+      "drawer":{
+          "transition-duration": 500,
+          "transition-top-to-bottom":true
+      },
+      "passthrough": false,
+      "modules": ["pulseaudio","pulseaudio/slider"]
+  },
+
+  "group/misc": {
+      "orientation" : "inherit",
+      "drawer": {
+          "transition-duration": 500,
+          "children-class": "misc-modules",
+          "transition-top-to-bottom": false
+      },
+      "modules": [
+          "custom/separator",
+          "custom/notification",
+          "power-profiles-daemon"
+          ,"cpu",
+          "bluetooth"
+      ]
+  },
+
+  "custom/separator": {
+      "format": "＿",
+      "tooltip": false
+  },
+
+  "hyprland/workspaces": {
+    "on-click": "activate",
+    "format": "{id}",
+    "on-scroll-down": "hyprctl dispatch workspace e+1",
+    "on-scroll-up": "hyprctl dispatch workspace e-1",
+    "cursor": "pointer"
+  },
+
+
+  "custom/omarchy": {
+    "format": "<span font='omarchy'>\ue900</span>",
+    "on-click": "omarchy-menu",
+    "on-click-right": "xdg-terminal-exec",
+    "tooltip-format": "Omarchy Menu"
+  },
+
+
+  "custom/update": {
+    "format": "",
+    "exec": "omarchy-update-available",
+    "on-click": "omarchy-launch-floating-terminal-with-presentation omarchy-update",
+    "tooltip-format": "Omarchy update available",
+    "signal": 7,
+    "interval": 21600
+  },
+
+
+ 
+
+  "cpu": {
+    "interval": 5,
+    "format": "󰍛",
+    "on-click": "omarchy-launch-or-focus-tui btop"
+  },
+
+
+  "clock": {
+        "format": "{:%H\n%M}",
+        "interval":60,
+        "tooltip-format": "<tt>{calendar}</tt>",
+        "calendar": {
+            "format": {
+                "today": "<span color= '#fafBfc'><b>{}</b></span>" 
+            }
+        },
+        "actions": {
+                    "on-click-right": "shift_down",
+                    "on-click-forward": "shift_up"
+        }
+  },
+
+  "network": {
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "format": "{icon}",
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰀂",
+    "format-disconnected": "󰤮",
+    "tooltip-format-wifi": "Connected to {essid}",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 7,
+    "spacing": 0,
+    "on-click": "omarchy-launch-wifi"
+  },
+
+
+  "battery": {
+    "format": "{capacity}% {icon}",
+    "format-discharging": "{icon}",
+    "format-charging": "{icon}",
+    "format-plugged": "",
+    "format-icons": {
+      "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+      "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },
+    "format-full": "󰂅",
+    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+    "interval": 5,
+    "on-click": "omarchy-menu power",
+    "states": {
+      "warning": 20,
+      "critical": 10
+    }
+  },
+
+
+
+  "bluetooth": {
+    "format": "",
+    "format-disabled": "󰂲",
+    "format-off": "󰂲",
+    "format-connected": "󰂱",
+    "format-no-controller": "",
+    "tooltip-format": "Devices connected: {num_connections}",
+    "on-click": "omarchy-launch-bluetooth"
+  },
+
+
+  "pulseaudio": {
+    "format": "{icon}",
+    "on-click": "omarchy-launch-or-focus-tui wiremix",
+    "on-click-right": "pamixer -t",
+    "tooltip-format": "Volume: {volume}%",
+    "scroll-step": 1,
+    "format-muted":"",
+    "format-icons": {
+        "headphone": "",
+        "hands-free": "",
+        "headset": "",
+        "phone": "",
+        "phone-muted": "",
+        "portable": "",
+        "car": "",
+        "default": ["", ""]    
+    },
+    "ignored-sinks": ["Easy Effects Sink"]
+  },
+
+
+  "group/tray-expander": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 600,
+      "children-class": "tray-group-item"
+    },
+    "modules": ["custom/expand-icon", "tray"]
+  },
+
+
+
+  "custom/expand-icon": {
+    "format": "↑",
+    "tooltip": false
+  },
+
+   "tray": {
+    "icon-size": 40,
+    "spacing": 12
+  }
+
+
+
+  // remember to add this in modulles : "custom/screenrecording-indicator"
+  // "custom/screenrecording-indicator": {
+  //   "on-click": "omarchy-cmd-screenrecord",
+  //   "exec": "$OMARCHY_PATH/default/waybar/indicators/screen-recording.sh",
+  //   "signal": 8,
+  //   "return-type": "json"
+  // },
+  //
+  //
+  // After SwayNC
+  // "custom/launcher": {
+  //   "format": "A",
+  //   "on-click": "bash /home/$USER/.config/waybar/scripts/app_launcher.sh",
+  //   "tooltip-format": "Launch your favorite apps"
+  // },
+  // "custom/media": {
+  //   "format": "{}",
+  //   "escape": true,
+  //   "return-type": "json",
+  //   "max-length": 40,
+  //   "on-click": "playerctl play-pause",
+  //   "on-click-right": "playerctl stop",
+  //   "smooth-scrolling-threshold": 1,
+  //   "on-scroll-up": "playerctl next",
+  //   "on-scroll-down": "playerctl previous",
+  //   "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null"
+  // },
+  //
+  //
+  //
+  // "custom/notification": {
+  //   "tooltip": true,
+  //   "tooltip-format": "Left Click: Launch Notification Center\\nRight Click: Do not Disturb",
+  //   "format-icons": {
+  //     "notification": "<span foreground='red'><sup>●</sup></span>",
+  //     "none": "",
+  //     "dnd-notification": "<span foreground='red'><sup>●</sup></span>",
+  //     "dnd-none": "",
+  //     "inhibited-notification": "<span foreground='red'><sup>●</sup></span>",
+  //     "inhibited-none": "",
+  //     "dnd-inhibited-notification": "<span foreground='red'><sup>●</sup></span>",
+  //     "dnd-inhibited-none": ""
+  //   },
+  //   "return-type": "json",
+  //   "exec-if": "which swaync-client",
+  //   "exec": "swaync-client -swb",
+  //   "on-click": "sleep 0.1 && swaync-client -t -sw",
+  //   "on-click-right": "swaync-client -d -sw",
+  //   "escape": true
+  // },
+
+
+ }

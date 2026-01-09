@@ -1,0 +1,241 @@
+@import "../omarchy/current/theme/waybar.css";
+
+/* ----------------------------- */
+/*     CATPPUCCIN MOCHA COLORS   */
+/* ----------------------------- */
+@define-color base #1e1e2e;
+@define-color surface0 #313244;
+@define-color surface1 #45475a;
+@define-color text #cdd6f4;
+@define-color lavender #b4befe;
+@define-color bg0 #1a1b26;
+@define-color bg1 #292e42;
+@define-color bg2 #283457;
+@define-color bg3 #414868;
+@define-color bg4 #545c7e;
+
+@define-color fg #c0caf5;
+
+@define-color red #f7768e;
+@define-color orange #ff9e64;
+@define-color yellow #e0af68;
+@define-color green #9ece6a;
+@define-color aqua #7dcfff;
+@define-color blue #7aa2f7;
+@define-color purple #bb9af7;
+
+@define-color grey0 #545c7e;
+@define-color grey1 #a9b1d6;
+@define-color grey2 #c0caf5;
+
+/* @define-color  */
+/* @define-color  */
+/* @define-color  */
+/* @define-color  */
+/* @define-color  */
+
+/* ----------------------------- */
+/*     GLOBAL BAR STYLE          */
+/* ----------------------------- */
+
+* {
+  font-family: "SF Pro Display", "JetBrainsMono Nerd Font";
+  border: none;
+  border-radius: 0;
+  min-height: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+/* ----------------------------- */
+/*     MODULE SPACING (VERTICAL) */
+/* ----------------------------- */
+.modules-left,
+.modules-center,
+.modules-right {
+  margin: 0;
+  padding: 0;
+  padding-top: 8px;
+  padding-bottom: 10px;
+  padding-left: 2px;
+}
+
+/* ----------------------------- */
+/*     WORKSPACES (NO BOXES)     */
+/* ----------------------------- */
+
+window#waybar {
+  background-color: transparent;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  min-width: 36px;
+}
+
+#workspaces {
+  min-width: 0;
+  margin: 12px;
+  transition: all 0.3s ease-in-out;
+}
+
+#workspaces button {
+  background: linear-gradient(180deg, @blue 0%, @purple 100%);
+  color: transparent;
+  min-width: 0;
+  border-radius: 3px;
+  margin: 5px 0;
+  transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.active {
+  background: linear-gradient(180deg, @blue 0%, @purple 100%);
+  color: transparent;
+  transition: all 0.3s ease-in-out;
+  font-size: 13px;
+  border-radius: 10px;
+  min-height: 80px;
+}
+
+#workspaces button:hover {
+  color: transparent;
+  background: linear-gradient(180deg, @purple 0%, @blue 100%);
+  border-radius: 16px;
+  background-size: 400% 400%;
+  transition: all 0.3s ease-in-out;
+}
+
+#workspaces button.urgent {
+  color: @bg0;
+  background: linear-gradient(180deg, @red 0%, @orange 100%);
+  border-radius: 16px;
+  background-size: 400% 400%;
+  transition: all 0.3s ease-in-out;
+}
+
+/* ----------------------------- */
+/*   CLEAN MODULE LOOK NO BOXES  */
+/* ----------------------------- */
+#cpu,
+#tray,
+#custom-omarchy,
+#custom-update {
+  color: @yellow;
+  font-size: 20px;
+}
+
+#bluetooth {
+  font-size: 22px;
+}
+
+#network {
+  color: @purple;
+  font-size: 19px;
+  padding-bottom: 10px;
+}
+
+#battery {
+  color: @green;
+  margin-bottom: 10px;
+  font-size: 22px;
+  padding-left: 7px;
+}
+
+/* #custom-screenrecording-indicator { */
+/*   padding: 6px 10px; */
+/*   margin: 2px 0; */
+/* } */
+
+#clock {
+  color: @purple;
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: 800; /* ExtraBold = aesthetic */
+  font-size: 30px; /* Big clean clock */
+  letter-spacing: -1px; /* tighter & prettier */
+  margin: 10px 0 0px 0;
+  /* text-shadow: #dad6d6; subtle glow */
+}
+
+#battery #netwrok #pulseaudio {
+  background-color: alpha(@bg0, 0.5);
+  margin: 10px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+#group-volume,
+#pulseaudio,
+#pulseaudio-slider {
+  min-width: 20px;
+}
+
+#pulseaudio {
+  padding-bottom: 10px;
+  padding-left: 3px;
+  font-size: 19px;
+  color: @yellow;
+}
+
+#pulseaudio-slider trough {
+  border-radius: 5px;
+  min-width: 8px;
+  padding: 0;
+}
+
+#pulseaudio-slider highlight {
+  border-radius: 5px;
+  min-width: 8px;
+  background: linear-gradient(to right, #7aa2f7, #bb9af7);
+}
+
+#pulseaudio-slider {
+  min-height: 120px;
+  min-width: 8px;
+  padding: 0;
+  margin: 15px 0;
+}
+
+#pulseaudio-slider slider {
+  border-radius: 2px;
+  min-width: 8px;
+}
+
+#group-misc {
+  margin: 0px;
+}
+
+/* .misc-modules { */
+/*   font-size: 15px; */
+/* } */
+
+#custom-separator {
+  margin-top: 5px;
+  font-size: 20px;
+}
+
+/* ----------------------------- */
+/*     TRAY + CLOCK TWEAKS       */
+/* ----------------------------- */
+#tray {
+  margin-bottom: 12px;
+}
+
+/* #clock { */
+/*   font-weight: 500; */
+/*   color: @blue; */
+/* } */
+
+/* ----------------------------- */
+/* SCREEN RECORD INDICATOR       */
+/* ----------------------------- */
+/* #custom-screenrecording-indicator.active { */
+/*   color: @red; */
+/* } */
+
+/* ----------------------------- */
+/*        TOOLTIP STYLE          */
+/* ----------------------------- */
+tooltip label {
+  background: transparent;
+  color: @fg;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: none;
+}

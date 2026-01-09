@@ -1,0 +1,167 @@
+{
+    "reload_style_on_change": true,
+    "layer": "top",
+    "position": "top",
+    "height": 50,
+    "spacing": 5,
+    "margin-bottom": -11,
+    "modules-left": ["custom/omarchy", "hyprland/workspaces"],
+    "modules-right": ["temperature", "network", "battery", "custom/ss", "custom/cycle_wall", "custom/expand", "cpu", "clock"],
+    "modules-center": ["custom/dynamic_pill"],
+
+    "custom/omarchy": {
+        "format": "<span font='omarchy'>\ue900</span>",
+        "on-click": "omarchy-menu",
+        "on-click-right": "xdg-terminal-exec",
+        "tooltip-format": "Omarchy Menu\n\nSuper + Alt + Space"
+    },
+
+    "custom/dynamic_pill": {
+        "return-type": "json",
+        "exec": "~/.config/hypr/scripts/tools/start_dyn",
+        "escape": true
+    },
+
+    "custom/ss": {
+        "format": "{}",
+        "exec": "~/.config/hypr/scripts/tools/expand ss-icon",
+        "on-click": "~/.config/hypr/scripts/screenshot_full"
+    },
+
+    "custom/cycle_wall": {
+        "format": "{}",
+        "exec": "~/.config/hypr/scripts/tools/expand wall",
+        "on-click": "~/.config/hypr/scripts/tools/expand cycle"
+    },
+
+    "custom/expand": {
+        "on-click": "~/.config/hypr/scripts/expand_toolbar",
+        "format": "{}",
+        "exec": "~/.config/hypr/scripts/tools/expand arrow-icon"
+    },
+
+    "hyprland/workspaces": {
+        "on-click": "activate",
+        "format": "{icon}",
+        "format-icons": {
+            "default": "",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "10": "0",
+            "active": "󱓻"
+        },
+        "persistent-workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        }
+    },
+
+    "keyboard-state": {
+        "numlock": true,
+        "capslock": true,
+        "format": "{name} {icon}",
+        "format-icons": {
+            "locked": "",
+            "unlocked": ""
+        }
+    },
+
+    "tray": {
+        "spacing": 10
+    },
+
+    "clock": {
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "interval": 60,
+        "format": "{:%I:%M}",
+        "format-alt": "{:L%d %B W%V %Y}",
+        "max-length": 25,
+        "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select"
+    },
+
+    "cpu": {
+        "interval": 1,
+        "format": "{icon0} {icon1} {icon2} {icon3}",
+        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"],
+        "on-click": "omarchy-launch-or-focus-tui btop"
+    },
+
+    "memory": {
+        "format": "{}% "
+    },
+
+    "temperature": {
+        "critical-threshold": 80,
+        "format-critical": "{temperatureC}°C",
+        "format": ""
+    },
+
+    "backlight": {
+        "format": "{percent}% {icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", ""]
+    },
+
+    "battery": {
+        "states": {
+            "warning": 50,
+            "critical": 20
+        },
+        "format": "{icon}",
+        "format-charging": "",
+        "format-plugged": "",
+        "format-icons": ["", "", "", "", ""],
+        "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+        "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+        "interval": 5,
+        "on-click": "omarchy-menu power"
+    },
+
+    "network": {
+        "format-wifi": "",
+        "format-ethernet": "",
+        "tooltip-format": "via {gwaddr} {ifname}",
+        "format-linked": "",
+        "format-disconnected": "wifi",
+        "format-alt": "   ",
+        "on-click": "omarchy-launch-wifi"
+    },
+
+    "pulseaudio": {
+        "format": "{format_source}",
+        "format-bluetooth": "{volume}% {icon} {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": " {format_source}",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "omarchy-launch-or-focus-tui wiremix",
+        "on-click-right": "pamixer -t",
+        "tooltip-format": "Playing at {volume}%",
+        "scroll-step": 5
+    },
+
+    "bluetooth": {
+        "format": "",
+        "format-disabled": "󰂲",
+        "format-connected": "󰂱",
+        "format-no-controller": "",
+        "tooltip-format": "Devices connected: {num_connections}",
+        "on-click": "omarchy-launch-bluetooth"
+    }
+}
