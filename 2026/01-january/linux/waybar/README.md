@@ -1,0 +1,1 @@
+- `switch.sh` - switches active waybar variant by updating symlinks.

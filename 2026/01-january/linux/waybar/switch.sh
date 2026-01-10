@@ -13,7 +13,7 @@ switch_variant() {
   ln -sfn "$TARGET/style.css" "$BASE/active/style.css"
   ln -sfn "$TARGET/modules" "$BASE/modules"
 
-  pkill -USR2 waybar
+  pkill waybar
   sleep 0.15
   waybar & disown
 }
