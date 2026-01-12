@@ -16,3 +16,6 @@ I also unbinded a key today and learned that my power menu is linked with system
 - `Updated Mpv config`
  Mpv now resumes videos from where it was left off
 
+- Uploading my all configs of waybar
+ I am thinking of experimenting a lot, that is why i am uploading on github as a safety net.
+
