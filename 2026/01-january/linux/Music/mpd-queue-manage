@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# Function to show queue
+show_queue() {
+    mpc playlist -f '%position%. %file%' | sed 's/.*\///' | sed 's/\.[^.]*$//'
+}
+
+# Main loop
+while true; do
+    # Get current queue
+    QUEUE=$(show_queue)
+
+    if [ -z "$QUEUE" ]; then
+        notify-send "Queue Empty" "No songs in queue"
+        exit 0
+    fi
+
+    # Add management options at the top
+    OPTIONS="▶ Play Selected
+🔀 Shuffle Queue
+🗑️ Clear Queue
+---
+$QUEUE"
+
+    # Use tofi to select
+    SELECTED=$(echo "$OPTIONS" | tofi --prompt-text "Queue Management: ")
+
+    # Exit if nothing selected
+    [ -z "$SELECTED" ] && exit 0
+
+    # Handle special options
+    case "$SELECTED" in
+    "▶ Play Selected")
+        QUEUE=$(show_queue)
+        PLAY_SELECTED=$(echo "$QUEUE" | tofi --prompt-text "Play: ")
+        if [ -n "$PLAY_SELECTED" ]; then
+            POSITION=$(echo "$PLAY_SELECTED" | grep -o '^[0-9]*')
+            mpc play "$POSITION"
+            exit 0
+        fi
+        ;;
+    "🔀 Shuffle Queue")
+        mpc shuffle
+        notify-send "🔀 Shuffled" "Queue shuffled"
+        ;;
+    "🗑️ Clear Queue")
+        mpc clear
+        notify-send "🗑️ Cleared" "Queue cleared"
+        exit 0
+        ;;
+    "---")
+        continue
+        ;;
+    *)
+        # Song selected - show action menu
+        POSITION=$(echo "$SELECTED" | grep -o '^[0-9]*')
+        SONG_NAME=$(echo "$SELECTED" | sed 's/^[0-9]*\. //')
+        QUEUE_LENGTH=$(mpc playlist | wc -l)
+
+        ACTION=$(echo -e "▶ Play This Song\n⬆ Move Up\n⬇ Move Down\n🔢 Move to Position\n🗑️ Remove from Queue\n← Back" | tofi --prompt-text "$SONG_NAME: ")
+
+        case "$ACTION" in
+        "▶ Play This Song")
+            mpc play "$POSITION"
+            exit 0
+            ;;
+        "⬆ Move Up")
+            if [ "$POSITION" -gt 1 ]; then
+                mpc move "$POSITION" $((POSITION - 1))
+                notify-send "⬆ Moved Up" "$SONG_NAME"
+            else
+                notify-send "⚠️ Already at top" "$SONG_NAME"
+            fi
+            ;;
+        "⬇ Move Down")
+            if [ "$POSITION" -lt "$QUEUE_LENGTH" ]; then
+                mpc move "$POSITION" $((POSITION + 1))
+                notify-send "⬇ Moved Down" "$SONG_NAME"
+            else
+                notify-send "⚠️ Already at bottom" "$SONG_NAME"
+            fi
+            ;;
+        "🔢 Move to Position")
+            # Generate position list
+            POSITIONS=$(seq 1 "$QUEUE_LENGTH")
+            NEW_POS=$(echo "$POSITIONS" | tofi --prompt-text "Move to position (currently $POSITION/$QUEUE_LENGTH): ")
+
+            if [ -n "$NEW_POS" ] && [ "$NEW_POS" -ge 1 ] && [ "$NEW_POS" -le "$QUEUE_LENGTH" ]; then
+                mpc move "$POSITION" "$NEW_POS"
+                notify-send "🔢 Moved" "$SONG_NAME → Position $NEW_POS"
+            else
+                notify-send "⚠️ Invalid" "Position must be 1-$QUEUE_LENGTH"
+            fi
+            ;;
+        "🗑️ Remove from Queue")
+            mpc del "$POSITION"
+            notify-send "🗑️ Removed" "$SONG_NAME"
+            ;;
+        "← Back")
+            continue
+            ;;
+        *)
+            exit 0
+            ;;
+        esac
+        ;;
+    esac
+done

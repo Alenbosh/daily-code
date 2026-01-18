@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Get all songs from MPD database
+SONGS=$(mpc listall | sed 's/.*\///' | sed 's/\.[^.]*$//')
+
+# Use tofi to select a song
+SELECTED=$(echo "$SONGS" | tofi --prompt-text "Add to Queue: ")
+
+if [ -n "$SELECTED" ]; then
+    # Add the song to queue (don't clear)
+    mpc search filename "$SELECTED" | head -1 | mpc add
+    notify-send "➕ Added" "$SELECTED"
+fi
