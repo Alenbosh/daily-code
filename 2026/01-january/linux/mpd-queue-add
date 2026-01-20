@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Get all songs
+SONGS=$(mpc listall | sed 's/.*\///' | sed 's/\.[^.]*$//')
+
+# Use rofi with multi-select
+SELECTED=$(echo "$SONGS" | rofi -dmenu -multi-select -i \
+    -p "Add to Queue (Tab to select multiple):" \
+    -theme-str 'window {width: 80%; height: 60%;}' \
+    -theme-str 'listview {columns: 3; lines: 15;}')
+
+if [ -n "$SELECTED" ]; then
+    COUNT=0
+    while IFS= read -r song; do
+        if [ -n "$song" ]; then
+            mpc search filename "$song" | head -1 | mpc add
+            ((COUNT++))
+        fi
+    done <<<"$SELECTED"
+
+    if [ $COUNT -gt 0 ]; then
+        notify-send "➕ Added $COUNT songs" "to queue"
+    fi
+fi
