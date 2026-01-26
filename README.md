@@ -114,7 +114,10 @@ Potential evolution:
 
 ## 📜 License
 
-MIT License (see LICENSE file)
+MIT License © Manish (Alen)
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software, to deal in the software without restriction.
+
+See the [LICENSE](LICENSE) file for details.
 
 ---
 
